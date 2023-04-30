@@ -10,8 +10,10 @@ import electron, {
   systemPreferences,
   BrowserWindow,
   Event,
+  ipcMain,
 } from 'electron';
 import electronDownload from 'electron-dl';
+const play = require('play').Play();
 
 import { createLoginWindow } from './components/loginWindow';
 import {
@@ -48,6 +50,11 @@ if (process.argv.indexOf('--verbose') > -1 || safeGetEnv('VERBOSE') === '1') {
 }
 
 let mainWindow: BrowserWindow;
+ipcMain.on('playSound', () => {
+  play.sound('./static/espada.wav', function () {
+    console.log('Played espada.wav');
+  });
+});
 
 const appArgs =
   IS_PLAYWRIGHT && PLAYWRIGHT_CONFIG
